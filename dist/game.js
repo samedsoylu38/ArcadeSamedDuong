@@ -2731,12 +2731,179 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   }, "default");
 
   // code/main.js
-  Es();
-  loadSprite("bean", "sprites/bean.png");
-  add([
-    sprite("bean"),
-    pos(80, 40),
-    area()
-  ]);
+  var FLOOR_HEIGHT = 48;
+  var JUMP_FORCE = 800;
+  var SPEED = 480;
+  Es({
+    background: [0, 0, 0]
+  });
+  document.write("test"), loadSprite("bean", "sprites/bean.png");
+  loadSprite("bag", "sprites/bag.png");
+  loadSprite("sun", "sprites/sun.png");
+  loadSprite("moon", "sprites/moon.png");
+  scene("homescreen", () => {
+    add([
+      text("Arcade Test"),
+      pos(130, 20),
+      scale(0.5)
+    ]);
+    add([
+      sprite("sun"),
+      pos(100, 70),
+      area(),
+      "button1",
+      onClick("button1", () => {
+        go("game");
+      })
+    ]);
+    add([
+      sprite("moon"),
+      pos(350, 70),
+      area(),
+      "button2",
+      onClick("button2", () => {
+        go("game2");
+      })
+    ]);
+  });
+  scene("game", () => {
+    gravity(2400);
+    const player = add([
+      sprite("bean"),
+      pos(80, 40),
+      area(),
+      body()
+    ]);
+    add([
+      rect(width(), FLOOR_HEIGHT),
+      outline(4),
+      pos(0, height()),
+      origin("botleft"),
+      area(),
+      solid(),
+      color(127, 200, 255)
+    ]);
+    function jump() {
+      if (player.isGrounded()) {
+        player.jump(JUMP_FORCE);
+      }
+    }
+    __name(jump, "jump");
+    onKeyPress("space", jump);
+    onClick(jump);
+    function spawnTree() {
+      add([
+        rect(48, rand(32, 96)),
+        area(),
+        outline(4),
+        pos(width(), height() - FLOOR_HEIGHT),
+        origin("botleft"),
+        color(255, 180, 255),
+        move(LEFT, SPEED),
+        "tree"
+      ]);
+      wait(rand(0.5, 1.5), spawnTree);
+    }
+    __name(spawnTree, "spawnTree");
+    spawnTree();
+    player.onCollide("tree", () => {
+      addKaboom(player.pos);
+    });
+    let score = 0;
+    const scoreLabel = add([
+      text(score),
+      pos(24, 24)
+    ]);
+    onUpdate(() => {
+      score++;
+      scoreLabel.text = score;
+    });
+  });
+  scene("lose", (score) => {
+    add([
+      sprite("bag"),
+      pos(width() / 2, height() / 2 - 80),
+      scale(2),
+      origin("center")
+    ]);
+    add([
+      text(score),
+      pos(width() / 2, height() / 2 + 80),
+      scale(2),
+      origin("center")
+    ]);
+    onKeyPress("space", () => go("game"));
+    onClick(() => go("game"));
+  });
+  scene("game2", () => {
+    gravity(2400);
+    const player = add([
+      sprite("bag"),
+      pos(80, 40),
+      area(),
+      body()
+    ]);
+    add([
+      rect(width(), FLOOR_HEIGHT),
+      outline(4),
+      pos(0, height()),
+      origin("botleft"),
+      area(),
+      solid(),
+      color(127, 200, 255)
+    ]);
+    function jump() {
+      if (player.isGrounded()) {
+        player.jump(JUMP_FORCE);
+      }
+    }
+    __name(jump, "jump");
+    onKeyPress("space", jump);
+    onClick(jump);
+    function spawnTree() {
+      add([
+        rect(48, rand(32, 96)),
+        area(),
+        outline(4),
+        pos(width(), height() - FLOOR_HEIGHT),
+        origin("botleft"),
+        color(255, 180, 255),
+        move(LEFT, SPEED),
+        "tree"
+      ]);
+      wait(rand(0.5, 1.5), spawnTree);
+    }
+    __name(spawnTree, "spawnTree");
+    spawnTree();
+    player.onCollide("tree", () => {
+      addKaboom(player.pos);
+    });
+    let score = 0;
+    const scoreLabel = add([
+      text(score),
+      pos(24, 24)
+    ]);
+    onUpdate(() => {
+      score++;
+      scoreLabel.text = score;
+    });
+  });
+  scene("lose", (score) => {
+    add([
+      sprite("bag"),
+      pos(width() / 2, height() / 2 - 80),
+      scale(2),
+      origin("center")
+    ]);
+    add([
+      text(score),
+      pos(width() / 2, height() / 2 + 80),
+      scale(2),
+      origin("center")
+    ]);
+    onKeyPress("space", () => go("game"));
+    onClick(() => go("game"));
+  });
+  go("homescreen");
 })();
 //# sourceMappingURL=game.js.map
