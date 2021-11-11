@@ -2741,15 +2741,18 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   loadSprite("bag", "sprites/bag.png");
   loadSprite("sun", "sprites/sun.png");
   loadSprite("moon", "sprites/moon.png");
+  loadSprite("bobo", "sprites/bobo.png");
+  loadSprite("RetroFeeling", "sprites/RetroFeeling.png");
   scene("homescreen", () => {
     add([
-      text("Arcade Test"),
-      pos(130, 20),
-      scale(0.5)
+      sprite("RetroFeeling"),
+      pos(140, 50),
+      scale(1)
     ]);
     add([
       sprite("sun"),
-      pos(100, 70),
+      pos(200, 200),
+      scale(2),
       area(),
       "button1",
       onClick("button1", () => {
@@ -2758,7 +2761,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     ]);
     add([
       sprite("moon"),
-      pos(350, 70),
+      pos(450, 200),
+      scale(2),
       area(),
       "button2",
       onClick("button2", () => {

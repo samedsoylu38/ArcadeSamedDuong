@@ -1,3 +1,4 @@
+
 import kaboom from "kaboom";
 
 const FLOOR_HEIGHT = 48;
@@ -16,19 +17,22 @@ loadSprite("bean", "sprites/bean.png");
 loadSprite("bag", "sprites/bag.png");
 loadSprite("sun", "sprites/sun.png");
 loadSprite("moon", "sprites/moon.png");
+loadSprite("bobo", "sprites/bobo.png");
+loadSprite("RetroFeeling", "sprites/RetroFeeling.png");
 
 scene("homescreen", () =>{
   //onMouseDown()
   add([
-    text("Arcade Test"),
-    pos(130, 20),
-    scale(0.5)
+    sprite("RetroFeeling"),
+    pos(140, 50),
+    scale(1)
   ])
   add([
         // list of components
         sprite("sun"),
         //pos (x-Achse, y-Achse)
-        pos(100, 70),
+        pos(200, 200),
+        scale(2),
         area(),
         "button1",
         onClick("button1", () => 
@@ -41,7 +45,8 @@ scene("homescreen", () =>{
     add([
         // list of components
         sprite("moon"),
-        pos(350, 70),
+        pos(450, 200),
+        scale(2),
         area(),
         "button2",
         onClick("button2", () => 
@@ -108,12 +113,12 @@ scene("game", () => {
 
     // lose if player collides with any game obj with tag "tree"
     player.onCollide("tree", () => {
-        // go to "lose" scene and pass the score
+        //go to "lose" scene and pass the score;
         //go("lose", score);
         //burp();
         addKaboom(player.pos);
     });
-//commebnghccc
+
     // keep track of score
     let score = 0;
 
