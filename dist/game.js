@@ -2743,6 +2743,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   loadSprite("moon", "sprites/moon.png");
   loadSprite("bobo", "sprites/bobo.png");
   loadSprite("RetroFeeling", "sprites/RetroFeeling.png");
+  loadSprite("home", "sprites/home.png");
   scene("homescreen", () => {
     add([
       sprite("RetroFeeling"),
@@ -2787,6 +2788,16 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       solid(),
       color(127, 200, 255)
     ]);
+    add([
+      sprite("home"),
+      pos(600, 50),
+      scale(0.5),
+      area(),
+      "button3",
+      onClick("button3", () => {
+        go("lose");
+      })
+    ]);
     function jump() {
       if (player.isGrounded()) {
         player.jump(JUMP_FORCE);
@@ -2811,6 +2822,8 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     __name(spawnTree, "spawnTree");
     spawnTree();
     player.onCollide("tree", () => {
+      go("lose", score);
+      burp();
       addKaboom(player.pos);
     });
     let score = 0;
@@ -2825,7 +2838,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   });
   scene("lose", (score) => {
     add([
-      sprite("bag"),
+      sprite("bean"),
       pos(width() / 2, height() / 2 - 80),
       scale(2),
       origin("center")
@@ -2835,6 +2848,16 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       pos(width() / 2, height() / 2 + 80),
       scale(2),
       origin("center")
+    ]);
+    add([
+      sprite("home"),
+      pos(200, 50),
+      scale(0.1),
+      origin("center"),
+      "button4",
+      onClick("button4", () => {
+        go("lose");
+      })
     ]);
     onKeyPress("space", () => go("game"));
     onClick(() => go("game"));
@@ -2856,6 +2879,16 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       solid(),
       color(127, 200, 255)
     ]);
+    add([
+      sprite("home"),
+      pos(600, 50),
+      scale(0.5),
+      area(),
+      "button3",
+      onClick("button3", () => {
+        go("homescreen");
+      })
+    ]);
     function jump() {
       if (player.isGrounded()) {
         player.jump(JUMP_FORCE);
@@ -2904,6 +2937,16 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       pos(width() / 2, height() / 2 + 80),
       scale(2),
       origin("center")
+    ]);
+    add([
+      sprite("home"),
+      pos(600, 50),
+      scale(0.5),
+      area(),
+      "button3",
+      onClick("button3", () => {
+        go("homescreen");
+      })
     ]);
     onKeyPress("space", () => go("game"));
     onClick(() => go("game"));

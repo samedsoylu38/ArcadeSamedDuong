@@ -1,9 +1,9 @@
-
 import kaboom from "kaboom";
 
 const FLOOR_HEIGHT = 48;
 const JUMP_FORCE = 800;
 const SPEED = 480;
+
 // initialize context
 kaboom({
  background: [ 0, 0, 0 ] // The RGB code
@@ -19,6 +19,7 @@ loadSprite("sun", "sprites/sun.png");
 loadSprite("moon", "sprites/moon.png");
 loadSprite("bobo", "sprites/bobo.png");
 loadSprite("RetroFeeling", "sprites/RetroFeeling.png");
+loadSprite("home", "sprites/home.png");
 
 scene("homescreen", () =>{
   //onMouseDown()
@@ -27,6 +28,7 @@ scene("homescreen", () =>{
     pos(140, 50),
     scale(1)
   ])
+
   add([
         // list of components
         sprite("sun"),
@@ -52,7 +54,7 @@ scene("homescreen", () =>{
         onClick("button2", () => 
         {go('game2')})
     ]);
-    
+
 })
 scene("game", () => {
 
@@ -79,6 +81,18 @@ scene("game", () => {
         color(127, 200, 255),
     ]);
 
+    add([
+        // list of components
+        sprite("home"),
+        pos(600, 50),
+        scale(0.5),
+        area(),
+        "button3",
+        onClick("button3", () => 
+        {go('lose')})
+    ]);
+
+    
     function jump() {
         if (player.isGrounded()) {
             player.jump(JUMP_FORCE);
@@ -113,9 +127,9 @@ scene("game", () => {
 
     // lose if player collides with any game obj with tag "tree"
     player.onCollide("tree", () => {
-        //go to "lose" scene and pass the score;
-        //go("lose", score);
-        //burp();
+        //go to "lose" scene and pass the score
+        go("lose", score);
+        burp();
         addKaboom(player.pos);
     });
 
@@ -138,7 +152,7 @@ scene("game", () => {
 scene("lose", (score) => {
 
     add([
-        sprite("bag"),
+        sprite("bean"),
         pos(width() / 2, height() / 2 - 80),
         scale(2),
         origin("center"),
@@ -152,11 +166,24 @@ scene("lose", (score) => {
         origin("center"),
     ]);
 
+    add([
+        // list of components
+        sprite("home"),
+        pos(200, 50),
+        scale(0.1),
+        origin("center"),
+        "button4",
+        onClick("button4", () => 
+        {go('lose')})
+    ]);
+
+
     // go back to game with space is pressed
     onKeyPress("space", () => go("game"));
     onClick(() => go("game"));
 
 });
+
 
 scene("game2", () => {
 
@@ -181,6 +208,17 @@ scene("game2", () => {
         area(),
         solid(),
         color(127, 200, 255),
+    ]);
+
+    add([
+        // list of components
+        sprite("home"),
+        pos(600, 50),
+        scale(0.5),
+        area(),
+        "button3",
+        onClick("button3", () => 
+        {go('homescreen')})
     ]);
 
     function jump() {
@@ -254,6 +292,17 @@ scene("lose", (score) => {
         pos(width() / 2, height() / 2 + 80),
         scale(2),
         origin("center"),
+    ]);
+
+    add([
+        // list of components
+        sprite("home"),
+        pos(600, 50),
+        scale(0.5),
+        area(),
+        "button3",
+        onClick("button3", () => 
+        {go('homescreen')})
     ]);
 
     // go back to game with space is pressed
